@@ -1,0 +1,13 @@
+"nodemailer" and "googleapis" node package for this all process.
+
+google cloud--> console --> APIs&Services(dropdown)-->OAuth consent screen--> Select a project/Create a project
+
+After create project-->Credentials-->Create Credentials(OAuth Client ID)-->Application type(Web application)-->Authorized redirect IRIs(https://developers.google.com/oauthplayground/)-->create
+
+
+After create Credentials--> we get "client id" and "client secret"--> Put them in the .env file.
+
+We get also a refresh token from(https://developers.google.com/oauthplayground/) step-2-->Put it in the .env file
+
+
+For full process follow this video(https://web.programming-hero.com/acc-07/video/acc-07-11-7-send-email)

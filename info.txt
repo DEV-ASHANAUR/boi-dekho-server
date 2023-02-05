@@ -1,0 +1,49 @@
+//=== URL ===//
+http://localhost:5000/index-file/route-file
+
+
+
+
+//=== BASIC_URL===//
+http://localhost:5000/index-file(common-part)
+
+
+
+//=== run this command ===//
+npm init -y(for package.json)
+
+
+
+//=== Into script object of package.json(paste it) ===//
+"start": "node index.js",
+"start-dev": "nodemon index.js",
+
+
+
+//=== run this command ===//
+npm i express mongoose dotenv cors multer jsonwebtoken validator cookie-parser bcrypt //(for password)
+
+
+
+
+//=== Database connection ===//
+for database connection put the value of MONGO_URI in .env file
+
+
+
+
+//=== JWT secret key generate ===//
+require('crypto').randomBytes(64).toString('hex')
+
+
+
+//=== Change github repository url ===//
+git remote set-url origin <new-url>
+
+
+
+//===> uncomment .env from gitignore
+
+
+
+
