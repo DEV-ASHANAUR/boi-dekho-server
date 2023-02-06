@@ -4,6 +4,8 @@ const { createError } = require("./error");
 //Token verify
 exports.verifyToken = (req, res, next) => {
     const token = req.headers?.authorization?.split(" ")?.[1];
+    // const token = req.cookies?.access_token;
+
     if (!token) {
         return next(createError(401, "You are not authenticated!"));
     }

@@ -3,9 +3,10 @@ const {
     saveReview,
     updateReview,
     deleteReview,
-    getAReview,
     getAllReview,
+    getReviewByBookId,
 } = require("../controllers/review.controller");
+const { verifyToken, verifyAdmin } = require("../Utilities/verifyToken");
 const router = express.Router();
 
 //SAVE
@@ -18,9 +19,9 @@ router.put("/:id", updateReview);
 router.delete("/:id", deleteReview);
 
 //GET One
-// router.get("/:id", getReviewByBookId);
+router.get("/:bookId", getReviewByBookId);
 
 //GET ALL
-router.get("/", getAllReview);
+router.get("/", verifyToken, verifyAdmin, getAllReview);
 
 module.exports = router;

@@ -3,7 +3,8 @@ const { ObjectId } = mongoose.Schema.Types;
 const OrderSchema = new mongoose.Schema(
     {
         userId: {
-            type: String,
+            type: ObjectId,
+            ref: "User",
             required: true,
         },
         books: {

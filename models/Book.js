@@ -3,7 +3,7 @@ const validator = require("validator");
 const { ObjectId } = mongoose.Schema.Types;
 const BookSchema = new mongoose.Schema(
     {
-        title: {
+        bookTitle: {
             type: String,
             required: [true, "Please provide book name"],
             trim: true,
@@ -42,11 +42,7 @@ const BookSchema = new mongoose.Schema(
         coverType: {
             type: String,
             required: [true, "Must have a cover type"],
-            enum: {
-                values: ["Hard-cover", "Soft-cover"],
-                message:
-                    "coverType value can't be {VALUE}, must be Hard-cover/Soft-cover",
-            },
+            
         },
         discount: {
             type: Number,

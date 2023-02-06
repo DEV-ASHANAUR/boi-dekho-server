@@ -48,11 +48,12 @@ exports.login = async (req, res, next) => {
         );
 
         const { password: pass, isAdmin, ...others } = user._doc;
-        res.cookie("access_token", token, {
-            httpOnly: true,
-        })
-            .status(200)
-            .json(others);
+        // res.cookie("access_token", token, {
+        //     httpOnly: true,
+        // })
+        //     .status(200)
+        //     .json({...others, token});
+        res.status(200).json({ ...others, token });
     } catch (err) {
         next(err);
     }

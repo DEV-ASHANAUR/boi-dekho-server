@@ -19,17 +19,17 @@ const UserSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            validate: {
-                validator: (value) =>
-                    validator.isStrongPassword(value, {
-                        minLength: 6,
-                        minLowercase: 3,
-                        minNumbers: 1,
-                        minUppercase: 1,
-                        minSymbols: 1,
-                    }),
-                message: "Password {VALUE} is not strong enough.",
-            },
+            // validate: {
+            //     validator: (value) =>
+            //         validator.isStrongPassword(value, {
+            //             minLength: 6,
+            //             minLowercase: 3,
+            //             minNumbers: 1,
+            //             minUppercase: 1,
+            //             minSymbols: 1,
+            //         }),
+            //     message: "Password {VALUE} is not strong enough.",
+            // },
         },
         contactNumber: {
             type: String,

@@ -1,0 +1,67 @@
+{
+	"bookTitle": "Programming C",
+	"tag": [
+		"programming",
+		"C",
+		"learning"
+	],
+	"description": "Unlocking Android: A Developer's Guide provides concise, hands-on instruction for the Android operating system and development tools. This book teaches important architectural concepts in a straightforward writing style and builds on this with practical and useful examples throughout.",
+	"coverImage": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/scott2.jpg",
+	"price": 460,
+	"preview": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/scott2.jpg",
+	"categories": [
+		"programming",
+		"programming C"
+	],
+	"authors": [
+		"aaa",
+		"jjj"
+	],
+	"publisher": {
+		"publisherName": "zesan",
+		"id": "63dd58e0f2df748d374fcd26"
+	},
+	"publishDate": "22sep,2022",
+	"totalPageCount": 322,
+	"coverType": "hard",
+	"discount": 10,
+	"preOrder": true,
+	"language": "bangla",
+	"version": 1,
+	"quantity": 100,
+	"featured": false
+},
+
+{
+	"bookTitle": "Programming JAVA",
+	"tag": [
+		"programming",
+		"JAVA",
+		"learning"
+	],
+	"description": "Unlocking Android: A Developer's Guide provides concise, hands-on instruction for the Android operating system and development tools. This book teaches important architectural concepts in a straightforward writing style and builds on this with practical and useful examples throughout.",
+	"coverImage": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/scott2.jpg",
+	"price": 260,
+	"preview": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/scott2.jpg",
+	"categories": [
+		"programming",
+		"programming JAVA"
+	],
+	"authors": [
+		"xyz",
+		"abc"
+	],
+	"publisher": {
+		"publisherName": "zesan",
+		"id": "63dd58e0f2df748d374fcd26"
+	},
+	"publishDate": "22sep,2022",
+	"totalPageCount": 322,
+	"coverType": "hard",
+	"discount": 10,
+	"preOrder": true,
+	"language": "bangla",
+	"version": 1,
+	"quantity": 100,
+	"featured": true
+}

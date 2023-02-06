@@ -1,5 +1,4 @@
 const Review = require("../models/Review");
-
 //create information
 exports.saveReview = async (req, res, next) => {
     const newReview = new Review(req.body);
@@ -47,13 +46,13 @@ exports.getAllReview = async (req, res, next) => {
     }
 };
 
-//get review by matching book id
-// exports.getAAuthor = async (req, res, next) => {
-//     const id = req.params.id;
-//     try {
-//         const authors = await Review.findById(id);
-//         res.status(200).json(authors);
-//     } catch (error) {
-//         next(error);
-//     }
-// };
+// get review by matching book id
+exports.getReviewByBookId = async (req, res, next) => {
+    const id = req.params.bookId;
+    try {
+        const authors = await Review.find({ bookId: id });
+        res.status(200).json(authors);
+    } catch (error) {
+        next(error);
+    }
+};

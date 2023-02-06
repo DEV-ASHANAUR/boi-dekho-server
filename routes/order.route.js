@@ -14,6 +14,8 @@ const {
 } = require("../Utilities/verifyToken");
 const router = express.Router();
 
+// //GET Income
+router.get("/income", verifyToken, verifyAdmin, getIncome);
 // //SAVE
 router.post("/", verifyToken, saveOrder);
 
@@ -28,8 +30,5 @@ router.get("/:userId", verifyToken, verifyUser, getAUserOrder);
 
 // //GET ALL
 router.get("/", verifyToken, verifyAdmin, getAllOrder);
-
-// //GET ALL
-router.get("/income", verifyToken, verifyAdmin, getIncome);
 
 module.exports = router;

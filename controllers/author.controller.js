@@ -1,4 +1,5 @@
 const Author = require("../models/Author");
+const { createError } = require("../Utilities/error");
 
 //create information
 exports.saveAuthor = async (req, res, next) => {
@@ -51,8 +52,11 @@ exports.getAllAuthor = async (req, res, next) => {
 exports.getAAuthor = async (req, res, next) => {
     const id = req.params.id;
     try {
-        const authors = await Author.findById(id);
-        res.status(200).json(authors);
+        const author = await Author.findById(id);
+        if (!author) {
+            return next(createError(404, "Author does not exist"));
+        }
+        res.status(200).json(author);
     } catch (error) {
         next(error);
     }
