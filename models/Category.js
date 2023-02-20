@@ -2,12 +2,17 @@ const mongoose = require("mongoose");
 
 const CategorySchema = new mongoose.Schema(
     {
-        categoryName: {
+        category: {
             type: String,
             required: [true, "Please provide category name"],
             trim: true,
             unique: true,
         },
+        subCategories: [
+            {
+                type: String,
+            },
+        ],
     },
     { timestamps: true }
 );

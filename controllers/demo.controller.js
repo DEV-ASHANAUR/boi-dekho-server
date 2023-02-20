@@ -96,7 +96,7 @@ exports.getProducts = async (req, res, next) => {
             console.log(fields);
         }
 
-        if (req.query.page) {
+        if (req.query.page || req.query.limit) {
             const { page = 1, limit = 10 } = req.query; // "3" "10"
             //50 products
             // each page 10 product

@@ -14,6 +14,7 @@ app.use(express.json());
 const authRoute = require("./routes/auth.route");
 const userRoute = require("./routes/user.route");
 const categoryRoute = require("./routes/category.route");
+const subCategoryRoute = require("./routes/subCategory.route");
 const publisherRoute = require("./routes/publisher.route");
 const authorRoute = require("./routes/author.route");
 const reviewRoute = require("./routes/review.route");
@@ -41,6 +42,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/boikini/auth", authRoute);
 app.use("/api/v1/boikini/user", userRoute);
 app.use("/api/v1/boikini/category", categoryRoute);
+app.use("/api/v1/boikini/sub-category", subCategoryRoute);
 app.use("/api/v1/boikini/publisher", publisherRoute);
 app.use("/api/v1/boikini/author", authorRoute);
 app.use("/api/v1/boikini/review", reviewRoute);
