@@ -42,7 +42,6 @@ const BookSchema = new mongoose.Schema(
         coverType: {
             type: String,
             required: [true, "Must have a cover type"],
-            
         },
         discount: {
             type: Number,
@@ -75,26 +74,36 @@ const BookSchema = new mongoose.Schema(
         categories: [
             {
                 type: String,
-                required: [true, "Provide category"],
+                required: [true, "Provide Category"],
+            },
+        ],
+        subCategories: [
+            {
+                type: String,
+                required: [true, "Provide Sub Category"],
             },
         ],
         authors: [
             {
                 type: String,
-                required: [true, "Provide author"],
+                required: [true, "Provide Author"],
             },
         ],
         publisher: {
-            publisherName: {
-                type: String,
-                required: [true, "Provide publisher name"],
-            },
-            id: {
-                type: ObjectId,
-                ref: "Publisher",
-                required: [true, "Provide publisher id"],
-            },
+            type: String,
+            required: [true, "Provide publisher name"],
         },
+        // publisher: {
+        //     publisherName: {
+        //         type: String,
+        //         required: [true, "Provide publisher name"],
+        //     },
+        //     id: {
+        //         type: ObjectId,
+        //         ref: "Publisher",
+        //         required: [true, "Provide publisher id"],
+        //     },
+        // },
     },
     { timestamps: true }
 );

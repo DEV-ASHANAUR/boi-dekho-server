@@ -189,6 +189,29 @@ exports.getBestOfferBook = async (req, res, next) => {
     }
 };
 
+// Book fetch for filtering by select Option
+exports.FilterBookByOption = async (req, res, next) => {
+    const qlow = req.query.lowestprice;
+    const qhigh = req.query.highestprice;
+    const qold = req.query.oldest;
+
+    try {
+        let filterBookByOption;
+        if (qlow) {
+            filterBookByOption = await Book.find().sort({ price: 1 });
+        } else if (qhigh) {
+            filterBookByOption = await Book.find().sort({ price: -1 });
+        } else if (qold) {
+            filterBookByOption = await Book.find().sort({ createdAt: 1 });
+        } else {
+            filterBookByOption = await Book.find().sort({ createdAt: -1 });
+        }
+        res.status(200).json(filterBookByOption);
+    } catch (error) {
+        next(error);
+    }
+};
+
 // Book fetch for pre-order
 exports.preOrderBook = async (req, res, next) => {
     try {
@@ -203,21 +226,18 @@ exports.preOrderBook = async (req, res, next) => {
 
 //get all information
 exports.getAllBook = async (req, res, next) => {
-    const qNew = req.query.new;
-    const qCategory = req.query.category;
-    const qAuthor = req.query.author;
     try {
-        let books;
+        // let books;
 
-        if (qNew) {
-            books = await Book.find().sort({ createdAt: -1 }).limit(2);
-        } else if (qCategory) {
-            books = await Book.find({ categories: { $in: [qCategory] } });
-        } else if (qAuthor) {
-            books = await Book.find({ authors: { $in: [qAuthor] } });
-        } else {
-            books = await Book.find();
-        }
+        // if (qNew) {
+        //     books = await Book.find().sort({ createdAt: -1 }).limit(2);
+        // } else if (qCategory) {
+        //     books = await Book.find({ categories: { $in: [qCategory] } });
+        // } else if (qAuthor) {
+        //     books = await Book.find({ authors: { $in: [qAuthor] } });
+        // } else {
+        // }
+        const books = await Book.find();
         res.status(200).json(books);
     } catch (error) {
         next(error);

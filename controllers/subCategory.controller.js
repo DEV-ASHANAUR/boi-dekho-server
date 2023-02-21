@@ -11,10 +11,12 @@ exports.saveSubCategory = async (req, res, next) => {
         const savedSubCategory = await newSubCategory.save({
             subCategory: newSubCategory,
         });
+
+        const subCatId = savedSubCategory._id.toString();
         try {
-            const updatedCategory = await Category.findOneAndUpdate(
+            await Category.findOneAndUpdate(
                 filter,
-                { $push: { subCategories: subCategory } },
+                { $push: { subCategories: subCatId } },
                 { new: true }
             );
         } catch (error) {
@@ -29,24 +31,24 @@ exports.saveSubCategory = async (req, res, next) => {
 //update information
 exports.updateSubCategory = async (req, res, next) => {
     const id = req.params.id;
-    const { subCategory } = req.body;
-    // const filter = { category: category };
+    const { subCategory, category } = req.body;
+    const filter = { category: category };
+
     try {
         const updatedSubCategory = await SubCategory.findByIdAndUpdate(
             id,
             { $set: { subCategory: subCategory } },
             { new: true }
         );
-        // try {
-        //     const updatedCategory = await Category.findOneAndUpdate(
-        //         filter,
-        //         { $set: { "subCategories.$": subCategory } },
-        //         { new: true }
-        //     );
-        //     console.log(updatedCategory);
-        // } catch (error) {
-        //     next(error);
-        // }
+        try {
+            await Category.findOneAndUpdate(
+                filter,
+                { $addToSet: { subCategories: id } },
+                { new: true }
+            );
+        } catch (error) {
+            next(error);
+        }
         res.status(200).json(updatedSubCategory);
     } catch (error) {
         next(error);
@@ -56,12 +58,24 @@ exports.updateSubCategory = async (req, res, next) => {
 //delete information
 exports.deleteSubCategory = async (req, res, next) => {
     const id = req.params.id;
-    try {
-        await SubCategory.findByIdAndDelete({ _id: id });
+    const { category } = req.body;
+    const filter = { category: category };
 
-        res.status(200).json({
-            msg: "Deleted Successfully",
-        });
+    try {
+        await Category.findOneAndUpdate(
+            filter,
+            { $pull: { subCategories: id } },
+            { new: true }
+        );
+        try {
+            await SubCategory.findByIdAndDelete({ _id: id });
+
+            res.status(200).json({
+                msg: "Deleted Successfully",
+            });
+        } catch (error) {
+            next(error);
+        }
     } catch (error) {
         next(error);
     }
@@ -70,8 +84,8 @@ exports.deleteSubCategory = async (req, res, next) => {
 //get all information
 exports.getAllSubCategory = async (req, res, next) => {
     try {
-        const categories = await SubCategory.find();
-        res.status(200).json(categories);
+        const subCategories = await SubCategory.find();
+        res.status(200).json(subCategories);
     } catch (error) {
         next(error);
     }
@@ -81,8 +95,8 @@ exports.getAllSubCategory = async (req, res, next) => {
 exports.getASubCategory = async (req, res, next) => {
     const id = req.params.id;
     try {
-        const category = await SubCategory.findById(id);
-        res.status(200).json(category);
+        const subCategory = await SubCategory.findById(id);
+        res.status(200).json(subCategory);
     } catch (error) {
         next(error);
     }
