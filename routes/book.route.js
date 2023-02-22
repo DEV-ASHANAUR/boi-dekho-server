@@ -14,6 +14,7 @@ const {
     getChildishBook,
     getTrendingBook,
     FilterBookByOption,
+    getBookByPublisher,
 } = require("../controllers/book.controller");
 const { verifyToken, verifyAdmin } = require("../Utilities/verifyToken");
 const router = express.Router();
@@ -48,7 +49,7 @@ router.get("/childish", getChildishBook);
 router.get("/best-offer", getBestOfferBook);
 
 // //filtering
-router.get("/filter", getAllBook);
+// router.get("/publisher", getBookByPublisher);
 
 // // Get pre Order Book
 router.get("/pre-order", preOrderBook);
@@ -57,6 +58,6 @@ router.get("/pre-order", preOrderBook);
 router.get("/:id", getABook);
 
 // //GET ALL
-router.get("/", FilterBookByOption);
+router.get("/", getAllBook);
 
 module.exports = router;

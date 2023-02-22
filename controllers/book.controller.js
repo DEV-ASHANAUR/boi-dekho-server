@@ -189,29 +189,6 @@ exports.getBestOfferBook = async (req, res, next) => {
     }
 };
 
-// Book fetch for filtering by select Option
-exports.FilterBookByOption = async (req, res, next) => {
-    const qlow = req.query.lowestprice;
-    const qhigh = req.query.highestprice;
-    const qold = req.query.oldest;
-
-    try {
-        let filterBookByOption;
-        if (qlow) {
-            filterBookByOption = await Book.find().sort({ price: 1 });
-        } else if (qhigh) {
-            filterBookByOption = await Book.find().sort({ price: -1 });
-        } else if (qold) {
-            filterBookByOption = await Book.find().sort({ createdAt: 1 });
-        } else {
-            filterBookByOption = await Book.find().sort({ createdAt: -1 });
-        }
-        res.status(200).json(filterBookByOption);
-    } catch (error) {
-        next(error);
-    }
-};
-
 // Book fetch for pre-order
 exports.preOrderBook = async (req, res, next) => {
     try {
@@ -224,20 +201,30 @@ exports.preOrderBook = async (req, res, next) => {
     }
 };
 
-//get all information
+//get all information By publisher, shorting , pagenation
 exports.getAllBook = async (req, res, next) => {
     try {
-        // let books;
+        let filters = { ...req.query };
+        const excludeFields = ["sort", "page", "limit"];
+        excludeFields.forEach((field) => delete filters[field]);
+        const queries = {};
+        let books;
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(",").join(" ");
+            queries.sortBy = sortBy;
+        }
+        if (req.query.page || req.query.limit) {
+            const { page = 1, limit = 10 } = req.query;
+            const skip = (page - 1) * parseInt(limit);
+            queries.skip = skip;
+            queries.limit = parseInt(limit);
+        }
 
-        // if (qNew) {
-        //     books = await Book.find().sort({ createdAt: -1 }).limit(2);
-        // } else if (qCategory) {
-        //     books = await Book.find({ categories: { $in: [qCategory] } });
-        // } else if (qAuthor) {
-        //     books = await Book.find({ authors: { $in: [qAuthor] } });
-        // } else {
-        // }
-        const books = await Book.find();
+        books = await Book.find(filters)
+            .skip(queries.skip)
+            .sort(queries.sortBy)
+            .limit(queries.limit)
+            .select("bookTitle coverImage price discount");
         res.status(200).json(books);
     } catch (error) {
         next(error);
