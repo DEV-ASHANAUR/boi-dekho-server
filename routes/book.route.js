@@ -20,7 +20,7 @@ const { verifyToken, verifyAdmin } = require("../Utilities/verifyToken");
 const router = express.Router();
 
 // //SAVE
-router.post("/", verifyToken, verifyAdmin, saveBook);
+router.post("/", saveBook);
 
 // //UPDATE
 router.put("/:id", verifyToken, verifyAdmin, updateBook);

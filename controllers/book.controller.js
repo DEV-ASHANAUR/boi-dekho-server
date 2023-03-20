@@ -136,11 +136,11 @@ exports.getNonFictionBook = async (req, res, next) => {
         let nonfictionBooks;
         if (qallnonfictionbooks) {
             nonfictionBooks = await Book.find({
-                categories: { $in: ["NonFiction"] },
+                categories: { $in: ["Non-Fiction"] },
             }).sort({ createdAt: -1 });
         } else {
             nonfictionBooks = await Book.find({
-                categories: { $in: ["NonFiction"] },
+                categories: { $in: ["Non-Fiction"] },
             })
                 .sort({ createdAt: -1 })
                 .limit(6);
@@ -223,8 +223,7 @@ exports.getAllBook = async (req, res, next) => {
         books = await Book.find(filters)
             .skip(queries.skip)
             .sort(queries.sortBy)
-            .limit(queries.limit)
-            .select("bookTitle coverImage price discount");
+            .limit(queries.limit);
         res.status(200).json(books);
     } catch (error) {
         next(error);

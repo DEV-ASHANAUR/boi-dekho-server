@@ -3,16 +3,16 @@ const SubCategory = require("../models/SubCategory");
 
 //create information
 exports.saveSubCategory = async (req, res, next) => {
-    const { category, subCategory } = req.body;
+    const { category } = req.body;
     const filter = { category: category };
-    const newSubCategory = new SubCategory({ subCategory: subCategory });
+    const newSubCategory = new SubCategory(req.body);
 
     try {
-        const savedSubCategory = await newSubCategory.save({
-            subCategory: newSubCategory,
-        });
+        const savedSubCategory = await newSubCategory.save();
 
         const subCatId = savedSubCategory._id.toString();
+
+        // const subCategory = await SubCategory.findById(subCatId);
         try {
             await Category.findOneAndUpdate(
                 filter,
