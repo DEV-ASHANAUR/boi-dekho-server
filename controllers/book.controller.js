@@ -202,12 +202,9 @@ exports.preOrderBook = async (req, res, next) => {
 };
 
 //get all information By publisher, shorting , pagenation
+// http://localhost:5000/api/v1/boikini/book/?search=childish&categories=Fiction,Non-Fiktion&subcatagories=something,ting&limit=10
 exports.getAllBook = async (req, res, next) => {
-    // const category = Array.isArray(req.query.categories) ? req.query.categories : [req.query.categories];
-    // const subcategory = Array.isArray(req.query.subCategories) ? req.query.subCategories : [req.query.subCategories];
 
-    // console.log("catagories",categories);
-    // console.log("sub catagories",subcategories);
     try {
         let filters = { ...req.query };
         const excludeFields = ["sort", "page", "limit","search"];
@@ -241,13 +238,8 @@ exports.getAllBook = async (req, res, next) => {
             filters.subCategories = { $in: subcategory };
         }
 
-        // console.log("first",req.query.search)
         const {search}=req.query;
 
-        // console.log("filter", search);
-        // categories
-        // subCategories
-        // subcategory: { $in: ["laptops", "tablets"] }
         books = await Book.find(filters).find({"$or": [
             { bookTitle: { '$regex': search || "", '$options': 'i' } },
             { tag: { '$regex': search || "", '$options': 'i' } }
@@ -259,8 +251,6 @@ exports.getAllBook = async (req, res, next) => {
 
         const total = await Book.countDocuments(filters)
         const page = Math.ceil(total / queries.limit)
-        // return { total, page, books };
-
         res.status(200).json({ total, page,current:parseInt(current),books });
 
     } catch (error) {
