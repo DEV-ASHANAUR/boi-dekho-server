@@ -202,16 +202,10 @@ exports.preOrderBook = async (req, res, next) => {
 };
 
 //get all information By publisher, shorting , pagenation
-// ?category=Islamic&category=Non-Fiction&subcategory=Self-improvement&subcategory=Motivation
 exports.getAllBook = async (req, res, next) => {
-    // const category = Array.isArray(req.query.categories) ? req.query.categories : [req.query.categories];
-    // const subcategory = Array.isArray(req.query.subCategories) ? req.query.subCategories : [req.query.subCategories];
-
-    // console.log("catagories",categories);
-    // console.log("sub catagories",subcategories);
     try {
         let filters = { ...req.query };
-        const excludeFields = ["sort", "page", "limit","search"];
+        const excludeFields = ["sort", "page", "limit"];
         excludeFields.forEach((field) => delete filters[field]);
         const queries = {};
         let books;
@@ -219,53 +213,19 @@ exports.getAllBook = async (req, res, next) => {
             const sortBy = req.query.sort.split(",").join(" ");
             queries.sortBy = sortBy;
         }
-        let current = 1;
         if (req.query.page || req.query.limit) {
             const { page = 1, limit = 10 } = req.query;
-            current = page;
             const skip = (page - 1) * parseInt(limit);
             queries.skip = skip;
             queries.limit = parseInt(limit);
         }
 
-
-        if (req.query.categories && req.query.subCategories) {
-            const category = req.query.categories.split(',');
-            const subcategory = req.query.subCategories.split(',');
-            filters.categories = { $in: category };
-            filters.subCategories = { $in: subcategory };
-            // filters.categories = category;
-        } else if (req.query.categories) {
-            const category = req.query.categories.split(',');
-            filters.categories = { $in: category };
-        } else if (req.query.subCategories) {
-            const subcategory = req.query.subCategories.split(',');
-            filters.subCategories = { $in: subcategory };
-        }
-
-        // console.log("first",req.query.search)
-        const {search}=req.query;
-
-        console.log("filter", search);
-
-        // categories
-        // subCategories
-        // subcategory: { $in: ["laptops", "tablets"] }
-
-        books = await Book.find(filters).find({"$or": [
-            { bookTitle: { '$regex': search || "", '$options': 'i' } },
-            { tag: { '$regex': search || "", '$options': 'i' } }
-        ]})
+        books = await Book.find(filters)
             .skip(queries.skip)
             .sort(queries.sortBy)
             .limit(queries.limit)
-            .select("");
-
-        const total = await Book.countDocuments(filters)
-        const page = Math.ceil(total / queries.limit)
-        // return { total, page, books };
-
-        res.status(200).json({ total, page,current:parseInt(current),books });
+            .select("bookTitle coverImage price discount");
+        res.status(200).json(books);
     } catch (error) {
         next(error);
     }

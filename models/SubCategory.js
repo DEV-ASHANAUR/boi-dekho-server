@@ -8,6 +8,11 @@ const SubCategorySchema = new mongoose.Schema(
             trim: true,
             unique: true,
         },
+        category: {
+            type: String,
+            required: [true, "Please provide category name"],
+            trim: true,
+        },
     },
     { timestamps: true }
 );

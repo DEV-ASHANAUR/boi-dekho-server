@@ -1,0 +1,118 @@
+[
+    {
+        "subCategory": "Al-Hadith",
+        "category": "Islamic"
+    },
+    {
+        "subCategory": "Biography",
+        "category": "Islamic"
+    },
+    {
+        "subCategory": "Worship and practice",
+        "category": "Islamic"
+    },
+    {
+        "subCategory": "Self-improvement",
+        "category": "Islamic"
+    },
+    {
+        "subCategory": "History and Culture",
+        "category": "Islamic"
+    },
+    {
+        "subCategory": "Motivation",
+        "category": "Islamic"
+    },
+    {
+        "subCategory": "Others",
+        "category": "Islamic"
+    },
+    {
+        "subCategory": "Science fiction",
+        "category": "Fiction"
+    },
+    {
+        "subCategory": "Mystery",
+        "category": "Fiction"
+    },
+    {
+        "subCategory": "Thriller",
+        "category": "Fiction"
+    },
+    {
+        "subCategory": "Romance",
+        "category": "Fiction"
+    },
+    {
+        "subCategory": "Crime",
+        "category": "Fiction"
+    },
+    {
+        "subCategory": "Action-Adventure",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "Horror",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "Fantasy",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "History",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "Science",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "Business and Economics",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "Health and Wellness",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "CookBooks",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "Travel Literature",
+        "category": "Non-Fiction"
+    },
+    {
+        "subCategory": "Poetry Books",
+        "category": "Childish"
+    },
+    {
+        "subCategory": "Alphabet Books",
+        "category": "Childish"
+    },
+    {
+        "subCategory": "Books to Learn Counting",
+        "category": "Childish"
+    },
+    {
+        "subCategory": "Picture Books",
+        "category": "Childish"
+    },
+    {
+        "subCategory": "Cartoon",
+        "category": "Childish"
+    },
+    {
+        "subCategory": "SuperHuman",
+        "category": "Childish"
+    },
+    {
+        "subCategory": "Fairy Tales",
+        "category": "Childish"
+    },
+    {
+        "subCategory": "Rhyming Books",
+        "category": "Childish"
+    }
+]
