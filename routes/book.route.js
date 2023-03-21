@@ -23,10 +23,10 @@ const router = express.Router();
 router.post("/", saveBook);
 
 // //UPDATE
-router.put("/:id", verifyToken, verifyAdmin, updateBook);
+router.put("/:id", updateBook);
 
 // //DELETE
-router.delete("/:id", verifyToken, verifyAdmin, deleteBook);
+router.delete("/:id", deleteBook);
 
 // // Get new Arrival Book
 router.get("/new-arrival", newArrivalBook);

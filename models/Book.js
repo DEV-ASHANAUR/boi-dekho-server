@@ -7,7 +7,7 @@ const BookSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please provide book name"],
             trim: true,
-            unique: [true, "title must be unique"],
+            unique: true,
         },
         tag: [
             {
@@ -89,10 +89,12 @@ const BookSchema = new mongoose.Schema(
                 required: [true, "Provide Author"],
             },
         ],
-        publisher: {
-            type: String,
-            required: [true, "Provide publisher name"],
-        },
+        publisher: [
+            {
+                type: String,
+                required: [true, "Provide publisher name"],
+            },
+        ],
         // publisher: {
         //     publisherName: {
         //         type: String,
