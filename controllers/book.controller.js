@@ -136,11 +136,11 @@ exports.getNonFictionBook = async (req, res, next) => {
         let nonfictionBooks;
         if (qallnonfictionbooks) {
             nonfictionBooks = await Book.find({
-                categories: { $in: ["Non-Fiction"] },
+                categories: { $in: ["NonFiction"] },
             }).sort({ createdAt: -1 });
         } else {
             nonfictionBooks = await Book.find({
-                categories: { $in: ["Non-Fiction"] },
+                categories: { $in: ["NonFiction"] },
             })
                 .sort({ createdAt: -1 })
                 .limit(6);
@@ -202,10 +202,12 @@ exports.preOrderBook = async (req, res, next) => {
 };
 
 //get all information By publisher, shorting , pagenation
+// http://localhost:5000/api/v1/boikini/book/?search=childish&categories=Fiction,Non-Fiktion&subcatagories=something,ting&limit=10
 exports.getAllBook = async (req, res, next) => {
+
     try {
         let filters = { ...req.query };
-        const excludeFields = ["sort", "page", "limit"];
+        const excludeFields = ["sort", "page", "limit","search"];
         excludeFields.forEach((field) => delete filters[field]);
         const queries = {};
         let books;
@@ -213,18 +215,44 @@ exports.getAllBook = async (req, res, next) => {
             const sortBy = req.query.sort.split(",").join(" ");
             queries.sortBy = sortBy;
         }
+        let current = 1;
         if (req.query.page || req.query.limit) {
             const { page = 1, limit = 10 } = req.query;
+            current = page;
             const skip = (page - 1) * parseInt(limit);
             queries.skip = skip;
             queries.limit = parseInt(limit);
         }
 
-        books = await Book.find(filters)
+        if (req.query.categories && req.query.subCategories) {
+            const category = req.query.categories.split(',');
+            const subcategory = req.query.subCategories.split(',');
+            filters.categories = { $in: category };
+            filters.subCategories = { $in: subcategory };
+            // filters.categories = category;
+        } else if (req.query.categories) {
+            const category = req.query.categories.split(',');
+            filters.categories = { $in: category };
+        } else if (req.query.subCategories) {
+            const subcategory = req.query.subCategories.split(',');
+            filters.subCategories = { $in: subcategory };
+        }
+
+        const {search}=req.query;
+
+        books = await Book.find(filters).find({"$or": [
+            { bookTitle: { '$regex': search || "", '$options': 'i' } },
+            { tag: { '$regex': search || "", '$options': 'i' } }
+        ]})
             .skip(queries.skip)
             .sort(queries.sortBy)
-            .limit(queries.limit);
-        res.status(200).json(books);
+            .limit(queries.limit)
+            .select("");
+
+        const total = await Book.countDocuments(filters)
+        const page = Math.ceil(total / queries.limit)
+        res.status(200).json({ total, page,current:parseInt(current),books });
+
     } catch (error) {
         next(error);
     }
