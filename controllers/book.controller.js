@@ -248,7 +248,7 @@ exports.getAllBook = async (req, res, next) => {
             filters.publisher = { $in: publisher };
         }
 
-        
+        console.log("query:",queries.sortBy)
 
         const {search}=req.query;
 
