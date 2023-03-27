@@ -13,7 +13,13 @@ exports.register = async (req, res, next) => {
     });
     try {
         const savedUser = await newUser.save();
-        res.status(200).json(savedUser);
+        const payload = { id: savedUser._id, isAdmin: savedUser.isAdmin };
+        const token = jwt.sign(payload, process.env.JWT, {
+            expiresIn: "7days"
+        });
+
+        const { password: pass, ...others } = savedUser._doc;
+        res.status(200).json({ user: others, token });
     } catch (err) {
         next(err);
     }
@@ -36,7 +42,7 @@ exports.login = async (req, res, next) => {
         }
         const validated = await bcrypt.compare(password, user.password);
         if (!validated) {
-            return next(createError(400, "Wrong Password"));
+            return next(createError(400, "Wrong credentials"));
         }
 
         const token = jwt.sign(
@@ -47,13 +53,9 @@ exports.login = async (req, res, next) => {
             }
         );
 
-        const { password: pass, isAdmin, ...others } = user._doc;
-        // res.cookie("access_token", token, {
-        //     httpOnly: true,
-        // })
-        //     .status(200)
-        //     .json({...others, token});
-        res.status(200).json({ ...others, token });
+        const { password: pass, ...others } = user._doc;
+
+        res.status(200).json({ user: others, token });
     } catch (err) {
         next(err);
     }
