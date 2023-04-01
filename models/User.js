@@ -31,6 +31,8 @@ const UserSchema = new mongoose.Schema(
             default: false,
         },
 
+        provider: String,
+        division: String,
         district: String,
         upazila: String,
         address: String,
