@@ -13,13 +13,13 @@ exports.register = async (req, res, next) => {
     });
     try {
         const savedUser = await newUser.save();
-        const payload = { id: savedUser._id, isAdmin: savedUser.isAdmin };
-        const token = jwt.sign(payload, process.env.JWT, {
-            expiresIn: "7days"
-        });
+        // const payload = { id: savedUser._id, isAdmin: savedUser.isAdmin };
+        // const token = jwt.sign(payload, process.env.JWT, {
+        //     expiresIn: "7days"
+        // });
 
         const { password: pass, ...others } = savedUser._doc;
-        res.status(200).json({ user: others, token });
+        res.status(200).json(others);
     } catch (err) {
         next(err);
     }
@@ -40,6 +40,11 @@ exports.login = async (req, res, next) => {
         if (!user) {
             return next(createError(404, "user not found"));
         }
+        let isVarified = true;
+        const updateUser = await User.findOneAndUpdate({ _id: user._id },
+            { $set: { isVarified } },
+            { new: true })
+
         const validated = await bcrypt.compare(password, user.password);
         if (!validated) {
             return next(createError(400, "Wrong credentials"));
@@ -53,7 +58,7 @@ exports.login = async (req, res, next) => {
             }
         );
 
-        const { password: pass, ...others } = user._doc;
+        const { password: pass, ...others } = updateUser._doc;
 
         res.status(200).json({ user: others, token });
     } catch (err) {
