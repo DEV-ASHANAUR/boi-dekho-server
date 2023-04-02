@@ -26,21 +26,21 @@ const UserSchema = new mongoose.Schema(
                 "Please provide a valid contact number",
             ],
         },
+        provider: String,
+        isVarified: {
+            type: Boolean,
+            default: false,
+        },
         isAdmin: {
             type: Boolean,
             default: false,
         },
-
-        provider: String,
+        
         division: String,
         district: String,
         upazila: String,
         address: String,
 
-        isAdmin: {
-            type: Boolean,
-            default: false,
-        },
         // confirmationToken: String,
         // confirmationTokenExpires: Date,
 
