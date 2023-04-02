@@ -65,3 +65,60 @@ exports.login = async (req, res, next) => {
         next(err);
     }
 };
+
+
+exports.googleProvider = async (req, res, next) => {
+    try {
+        const email = req.body.email;
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            const newUser = new User(req.body);
+            try {
+                const savedUser = await newUser.save();
+                const payload = { id: savedUser._id, isAdmin: savedUser.isAdmin };
+                const token = jwt.sign(payload, process.env.JWT, {
+                    expiresIn: "7days"
+                });
+
+                const { password: pass, ...others } = savedUser._doc;
+                res.status(200).json({ user: others, token });
+            } catch (err) {
+                next(err);
+            }
+        }
+
+        if (user && user.isVarified === false) {
+            // const newUser = new User(req.body);
+            try {
+                const savedUser = await User.findOneAndUpdate({ _id: user._id },
+                    { $set: req.body },
+                    { new: true })
+                const payload = { id: savedUser._id, isAdmin: savedUser.isAdmin };
+                const token = jwt.sign(payload, process.env.JWT, {
+                    expiresIn: "7days"
+                });
+
+                const { password: pass, ...others } = savedUser._doc;
+                res.status(200).json({ user: others, token });
+            } catch (err) {
+                next(err);
+            }
+        }
+        if (user && user.isVarified === true) {
+            const token = jwt.sign(
+                { id: user._id, isAdmin: user.isAdmin },
+                process.env.JWT,
+                {
+                    expiresIn: "7days",
+                }
+            );
+
+            const { password: pass, ...others } = user._doc;
+            res.status(200).json({ user: others, token });
+        }
+
+    } catch (err) {
+        next(err);
+    }
+};
