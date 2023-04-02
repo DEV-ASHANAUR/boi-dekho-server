@@ -40,6 +40,7 @@ const UserSchema = new mongoose.Schema(
         district: String,
         upazila: String,
         address: String,
+        avater:String,
 
         // confirmationToken: String,
         // confirmationTokenExpires: Date,
