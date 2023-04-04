@@ -50,7 +50,7 @@ exports.getAllReview = async (req, res, next) => {
 exports.getReviewByBookId = async (req, res, next) => {
     const id = req.params.bookId;
     try {
-        const authors = await Review.find({ bookId: id }).populate('user.id',"username,email,avater");
+        const authors = await Review.find({ bookId: id }).populate('user.id',["username","email","avater"]);
         res.status(200).json(authors);
     } catch (error) {
         next(error);
