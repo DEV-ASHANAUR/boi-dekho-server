@@ -1,4 +1,5 @@
 const Review = require("../models/Review");
+const { ObjectId } = require("mongodb");
 //create information
 exports.saveReview = async (req, res, next) => {
     const newReview = new Review(req.body);
@@ -50,8 +51,20 @@ exports.getAllReview = async (req, res, next) => {
 exports.getReviewByBookId = async (req, res, next) => {
     const id = req.params.bookId;
     try {
-        const authors = await Review.find({ bookId: id }).populate('user.id',["username","email","avater"]);
-        res.status(200).json(authors);
+        const reviews = await Review.find({ bookId: id }).populate("user.id", [
+            "username",
+            "email",
+            "avater",
+        ]);
+        let sum = 0;
+        let count = 0;
+        reviews.forEach((review) => {
+            sum += parseFloat(review.rating);
+            count++;
+        });
+        const averageRating = (sum / count).toFixed(2);
+
+        res.status(200).json({ reviews, averageRating });
     } catch (error) {
         next(error);
     }

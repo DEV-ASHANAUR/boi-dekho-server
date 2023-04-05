@@ -1,4 +1,5 @@
 const Book = require("../models/Book");
+const Review = require("../models/Review");
 
 //create information
 exports.saveBook = async (req, res, next) => {
@@ -42,7 +43,20 @@ exports.getABook = async (req, res, next) => {
     const id = req.params.id;
     try {
         const book = await Book.findById(id);
-        res.status(200).json(book);
+        try {
+            const reviews = await Review.find({ bookId: id });
+            let sum = 0;
+            let count = 0;
+            reviews.forEach((review) => {
+                sum += parseFloat(review.rating);
+                count++;
+            });
+            const averageRating = (sum / count).toFixed(2);
+
+            res.status(200).json({ book, averageRating });
+        } catch (error) {
+            next(error);
+        }
     } catch (error) {
         next(error);
     }
@@ -204,10 +218,9 @@ exports.preOrderBook = async (req, res, next) => {
 //get all information By publisher, shorting , pagenation
 // http://localhost:5000/api/v1/boikini/book/?search=childish&categories=Fiction,Non-Fiktion&subcatagories=something,ting&limit=10
 exports.getAllBook = async (req, res, next) => {
-
     try {
         let filters = { ...req.query };
-        const excludeFields = ["sort", "page", "limit","search"];
+        const excludeFields = ["sort", "page", "limit", "search"];
         excludeFields.forEach((field) => delete filters[field]);
         const queries = {};
         let books;
@@ -225,46 +238,53 @@ exports.getAllBook = async (req, res, next) => {
         }
 
         if (req.query.categories && req.query.subCategories) {
-            const category = req.query.categories.split(',');
-            const subcategory = req.query.subCategories.split(',');
+            const category = req.query.categories.split(",");
+            const subcategory = req.query.subCategories.split(",");
             filters.categories = { $in: category };
             filters.subCategories = { $in: subcategory };
             // filters.categories = category;
         } else if (req.query.categories) {
-            const category = req.query.categories.split(',');
+            const category = req.query.categories.split(",");
             filters.categories = { $in: category };
         } else if (req.query.subCategories) {
-            const subcategory = req.query.subCategories.split(',');
+            const subcategory = req.query.subCategories.split(",");
             filters.subCategories = { $in: subcategory };
         }
 
-        if(req.query.authors){
-            const author = req.query.authors.split(',');
+        if (req.query.authors) {
+            const author = req.query.authors.split(",");
             filters.authors = { $in: author };
         }
 
-        if(req.query.publisher){
-            const publisher = req.query.publisher.split(',');
+        if (req.query.publisher) {
+            const publisher = req.query.publisher.split(",");
             filters.publisher = { $in: publisher };
         }
 
         // console.log("query:",queries.sortBy)
 
-        const {search}=req.query;
+        const { search } = req.query;
 
-        books = await Book.find(filters).find({"$or": [
-            { bookTitle: { '$regex': search || "", '$options': 'i' } },
-            { tag: { '$regex': search || "", '$options': 'i' } }
-        ]})
+        books = await Book.find(filters)
+            .find({
+                $or: [
+                    { bookTitle: { $regex: search || "", $options: "i" } },
+                    { tag: { $regex: search || "", $options: "i" } },
+                ],
+            })
             .skip(queries.skip)
             .sort(queries.sortBy)
             .limit(queries.limit)
             .select("");
 
-        const total = await Book.countDocuments(filters)
-        const page = Math.ceil(total / queries.limit)
-        res.status(200).json({ total, page,current:parseInt(current),books });
-
+        const total = await Book.countDocuments(filters);
+        const page = Math.ceil(total / queries.limit);
+        res.status(200).json({
+            total,
+            page,
+            current: parseInt(current),
+            books,
+        });
     } catch (error) {
         next(error);
     }
