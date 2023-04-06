@@ -51,9 +51,9 @@ exports.getABook = async (req, res, next) => {
                 sum += parseFloat(review.rating);
                 count++;
             });
-            const averageRating = (sum / count).toFixed(2);
+            const averageRating = (sum / count).toFixed(1);
 
-            res.status(200).json({ book, averageRating });
+            res.status(200).json({ book, averageRating, count });
         } catch (error) {
             next(error);
         }

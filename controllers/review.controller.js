@@ -62,9 +62,9 @@ exports.getReviewByBookId = async (req, res, next) => {
             sum += parseFloat(review.rating);
             count++;
         });
-        const averageRating = (sum / count).toFixed(2);
+        const averageRating = (sum / count).toFixed(1);
 
-        res.status(200).json({ reviews, averageRating });
+        res.status(200).json({ reviews, averageRating,count });
     } catch (error) {
         next(error);
     }
