@@ -15,6 +15,7 @@ const {
     getTrendingBook,
     FilterBookByOption,
     getBookByPublisher,
+    getReletedBook,
 } = require("../controllers/book.controller");
 const { verifyToken, verifyAdmin } = require("../Utilities/verifyToken");
 const router = express.Router();
@@ -30,7 +31,8 @@ router.delete("/:id", deleteBook);
 
 // // Get new Arrival Book
 router.get("/new-arrival", newArrivalBook);
-
+//get releted book
+router.get("/releted-book",getReletedBook);
 // //TRENDING
 router.get("/trending", getTrendingBook);
 // // Get Islamic category Book
@@ -59,5 +61,7 @@ router.get("/:id", getABook);
 
 // //GET ALL
 router.get("/", getAllBook);
+
+
 
 module.exports = router;

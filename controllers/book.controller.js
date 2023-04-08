@@ -1,5 +1,7 @@
 const Book = require("../models/Book");
 const Review = require("../models/Review");
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 //create information
 exports.saveBook = async (req, res, next) => {
@@ -285,6 +287,26 @@ exports.getAllBook = async (req, res, next) => {
             current: parseInt(current),
             books,
         });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+exports.getReletedBook = async (req, res, next) => {
+    try {
+
+        const categories = req.query.categories.split(','); // assuming the query parameter is named 'categories' and is a comma-separated list
+        const idToExclude = req.query.id_ne; // assuming the query parameter is named 'id_ne'
+        const idObjToExclude = new ObjectId(idToExclude);
+
+        const books = await Book.find({
+            _id: { $ne: idObjToExclude },
+            categories: { $in: categories }
+        }).limit(6)
+        res.status(200).json(
+            books,
+        );
     } catch (error) {
         next(error);
     }
