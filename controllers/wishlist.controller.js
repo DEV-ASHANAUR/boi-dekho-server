@@ -19,7 +19,16 @@ exports.saveWishlist = async (req, res, next) => {
         next(error);
     }
 };
-
+//get information by userId
+exports.getWishlistByUser = async (req, res, next) => {
+    const userId = req.params.userId;
+    try {
+        const wishlists = await Wishlist.find({userId}).populate("bookId");
+        res.status(200).json(wishlists);
+    } catch (error) {
+        next(error);
+    }
+};
 //delete information
 exports.deleteWishlist = async (req, res, next) => {
     const id = req.params.id;
