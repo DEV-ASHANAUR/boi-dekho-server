@@ -1,6 +1,7 @@
 const Book = require("../models/Book");
 const Review = require("../models/Review");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const Wishlist = require("../models/Wishlist");
 const ObjectId = mongoose.Types.ObjectId;
 
 //create information
@@ -32,8 +33,13 @@ exports.updateBook = async (req, res, next) => {
 //delete information
 exports.deleteBook = async (req, res, next) => {
     const id = req.params.id;
+
     try {
+        await Wishlist.updateMany({ bookId: id }, { $pull: { bookId: id } });
+        await Wishlist.deleteMany({ bookId: { $size: 0 } });
+
         await Book.findByIdAndDelete({ _id: id });
+
         res.status(200).json({ msg: "Deleted Successfully" });
     } catch (error) {
         next(error);
@@ -292,21 +298,17 @@ exports.getAllBook = async (req, res, next) => {
     }
 };
 
-
 exports.getReletedBook = async (req, res, next) => {
     try {
-
-        const categories = req.query.categories.split(','); // assuming the query parameter is named 'categories' and is a comma-separated list
+        const categories = req.query.categories.split(","); // assuming the query parameter is named 'categories' and is a comma-separated list
         const idToExclude = req.query.id_ne; // assuming the query parameter is named 'id_ne'
         const idObjToExclude = new ObjectId(idToExclude);
 
         const books = await Book.find({
             _id: { $ne: idObjToExclude },
-            categories: { $in: categories }
-        }).limit(6)
-        res.status(200).json(
-            books,
-        );
+            categories: { $in: categories },
+        }).limit(6);
+        res.status(200).json(books);
     } catch (error) {
         next(error);
     }

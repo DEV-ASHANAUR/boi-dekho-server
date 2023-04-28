@@ -18,6 +18,7 @@ const subCategoryRoute = require("./routes/subCategory.route");
 const publisherRoute = require("./routes/publisher.route");
 const authorRoute = require("./routes/author.route");
 const reviewRoute = require("./routes/review.route");
+const wishlistRoute = require("./routes/wishlist.route");
 const bookRoute = require("./routes/book.route");
 const orderRoute = require("./routes/order.route");
 
@@ -46,6 +47,7 @@ app.use("/api/v1/boikini/sub-category", subCategoryRoute);
 app.use("/api/v1/boikini/publisher", publisherRoute);
 app.use("/api/v1/boikini/author", authorRoute);
 app.use("/api/v1/boikini/review", reviewRoute);
+app.use("/api/v1/boikini/wishlist", wishlistRoute);
 app.use("/api/v1/boikini/book", bookRoute);
 app.use("/api/v1/boikini/order", orderRoute);
 
