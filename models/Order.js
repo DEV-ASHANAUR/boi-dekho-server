@@ -29,6 +29,11 @@ const OrderSchema = new mongoose.Schema(
             upazila: String,
             peakpoint: String,
         },
+        payment:{
+            type:Boolean,
+            default:false
+        },
+        tranId:String,
         paymentMethod: String,
     },
     { timestamps: true }
