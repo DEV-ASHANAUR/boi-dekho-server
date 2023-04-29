@@ -14,18 +14,18 @@ const {
 } = require("../Utilities/verifyToken");
 const router = express.Router();
 
-// //GET Income
+// //GET monthly Income
 router.get("/income", verifyToken, verifyAdmin, getIncome);
 // //SAVE
 router.post("/", verifyToken, saveOrder);
 
 // //UPDATE
-router.put("/:id", verifyToken, verifyAdmin, updateOrder);
+// router.put("/:id", verifyToken, verifyAdmin, updateOrder);
 
 // //DELETE
-router.delete("/:id", verifyToken, verifyAdmin, deleteOrder);
+// router.delete("/:id", verifyToken, verifyAdmin, deleteOrder);
 
-// //GET One
+// //GET order by user
 router.get("/:userId", verifyToken, verifyUser, getAUserOrder);
 
 // //GET ALL

@@ -12,37 +12,37 @@ exports.saveOrder = async (req, res, next) => {
 };
 
 //update information
-exports.updateOrder = async (req, res, next) => {
-    const id = req.params.id;
-    try {
-        const updatedOrder = await Order.findByIdAndUpdate(
-            id,
-            { $set: req.body },
-            { new: true }
-        );
-        res.status(200).json(updatedOrder);
-    } catch (error) {
-        next(error);
-    }
-};
+// exports.updateOrder = async (req, res, next) => {
+//     const id = req.params.id;
+//     try {
+//         const updatedOrder = await Order.findByIdAndUpdate(
+//             id,
+//             { $set: req.body },
+//             { new: true }
+//         );
+//         res.status(200).json(updatedOrder);
+//     } catch (error) {
+//         next(error);
+//     }
+// };
 
 //delete information
-exports.deleteOrder = async (req, res, next) => {
-    const id = req.params.id;
-    try {
-        await Order.findByIdAndDelete({ _id: id });
-        res.status(200).json({ msg: "Deleted Successfully" });
-    } catch (error) {
-        next(error);
-    }
-};
+// exports.deleteOrder = async (req, res, next) => {
+//     const id = req.params.id;
+//     try {
+//         await Order.findByIdAndDelete({ _id: id });
+//         res.status(200).json({ msg: "Deleted Successfully" });
+//     } catch (error) {
+//         next(error);
+//     }
+// };
 
-//get a information
+//get information by user
 exports.getAUserOrder = async (req, res, next) => {
-    const id = req.params.userId;
+    const userId = req.params.userId;
     try {
-        const order = await Order.findById(id);
-        res.status(200).json(book);
+        const order = await Order.find({ userId });
+        res.status(200).json(order);
     } catch (error) {
         next(error);
     }
@@ -60,7 +60,6 @@ exports.getAllOrder = async (req, res, next) => {
 };
 
 // GET MONTHLY INCOME
-
 exports.getIncome = async (req, res, next) => {
     const date = new Date();
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1));

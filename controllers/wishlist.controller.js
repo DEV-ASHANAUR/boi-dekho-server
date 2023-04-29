@@ -10,11 +10,11 @@ exports.saveWishlist = async (req, res, next) => {
         if (!wishlist) {
             wishlist = new Wishlist({ userId, bookId: [] });
         }
-        let bookindex = wishlist.bookId.findIndex((item)=>item == bookId);
+        let bookindex = wishlist.bookId.findIndex((item) => item == bookId);
         // console.log("bookindex",bookindex);
         //if bookid already in list
-        if(bookindex >= 0){
-            return next(createError(409,"product already exist!"));
+        if (bookindex >= 0) {
+            return next(createError(409, "product already exist!"));
         }
         //otherwise
         wishlist.bookId.push(bookId);
@@ -29,7 +29,7 @@ exports.saveWishlist = async (req, res, next) => {
 exports.getWishlistByUser = async (req, res, next) => {
     const userId = req.params.userId;
     try {
-        const wishlists = await Wishlist.find({userId}).populate("bookId");
+        const wishlists = await Wishlist.find({ userId }).populate("bookId");
         res.status(200).json(wishlists);
     } catch (error) {
         next(error);
@@ -38,9 +38,9 @@ exports.getWishlistByUser = async (req, res, next) => {
 //delete information
 exports.deleteWishlist = async (req, res, next) => {
     const id = req.params.id;
-    const  userId  = req.params.userId;
+    const userId = req.params.userId;
     const filter = { userId: userId };
-    
+
     try {
         await Wishlist.findOneAndUpdate(
             filter,
