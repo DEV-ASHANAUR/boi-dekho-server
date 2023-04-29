@@ -7,29 +7,29 @@ const OrderSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
-        books: {
-            quantity: {
-                type: Number,
-                default: 1,
-            },
-            id: {
-                type: ObjectId,
-                ref: "Book",
-                required: true,
-            },
+        orderDetails: {
+            type: Array,
         },
-        amount: {
+        totalCartQty: {
             type: Number,
-            required: true,
+            min: [0, "quantity can't be negative"],
         },
+        subtotal: String,
+        shippingFee: String,
+        discount: String,
+        total: String,
+        status: String,
         shippingAddress: {
-            type: String,
-            required: true,
+            fullName: String,
+            email: String,
+            contactNumber: String,
+            zipCode: String,
+            division: String,
+            district: String,
+            upazila: String,
+            peakpoint: String,
         },
-        status: {
-            type: String,
-            default: "pending",
-        },
+        paymentMethod: String,
     },
     { timestamps: true }
 );
