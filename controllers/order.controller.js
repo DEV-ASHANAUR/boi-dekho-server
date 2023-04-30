@@ -39,6 +39,7 @@ exports.saveOrder = async (req, res, next) => {
 
 //get information by user
 exports.getAUserOrder = async (req, res, next) => {
+    
     const userId = req.params.userId;
     try {
         const order = await Order.find({ userId });

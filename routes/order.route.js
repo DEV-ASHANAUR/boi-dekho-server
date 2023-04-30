@@ -26,7 +26,7 @@ router.post("/", verifyToken, saveOrder);
 // router.delete("/:id", verifyToken, verifyAdmin, deleteOrder);
 
 // //GET order by user
-router.get("/:userId", verifyToken, verifyUser, getAUserOrder);
+router.get("/:userId", verifyToken, getAUserOrder);
 
 // //GET ALL
 router.get("/", verifyToken, verifyAdmin, getAllOrder);
