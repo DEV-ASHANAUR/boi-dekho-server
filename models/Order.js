@@ -33,8 +33,13 @@ const OrderSchema = new mongoose.Schema(
             type:Boolean,
             default:false
         },
+        valId:String,
         tranId:String,
         paymentMethod: String,
+        confirmedDate: Date,
+        processingDate: Date,
+        shippedDate: Date,
+        deliveredDate: Date,
     },
     { timestamps: true }
 );

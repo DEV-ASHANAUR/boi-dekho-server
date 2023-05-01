@@ -17,13 +17,13 @@ const router = express.Router();
 router.get("/stats", verifyToken, verifyAdmin, getUserByMonth);
 
 //UPDATE
-router.put("/:id", verifyToken, verifyUser, updateUser);
+router.put("/:id", updateUser);
 
 //DELETE
 router.delete("/:id", verifyToken, verifyUser, deleteUser);
 
 //GET One
-router.get("/:id", verifyToken, verifyAdmin, getAUser);
+router.get("/:id", getAUser);
 
 //GET ALL
 router.get("/", verifyToken, verifyAdmin, getAllUser);

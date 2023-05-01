@@ -27,19 +27,19 @@ exports.saveOrder = async (req, res, next) => {
 // };
 
 //delete information
-// exports.deleteOrder = async (req, res, next) => {
-//     const id = req.params.id;
-//     try {
-//         await Order.findByIdAndDelete({ _id: id });
-//         res.status(200).json({ msg: "Deleted Successfully" });
-//     } catch (error) {
-//         next(error);
-//     }
-// };
+exports.getOrderById = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const order = await Order.findById({ _id: id });
+        res.status(200).json(order);
+    } catch (error) {
+        next(error);
+    }
+};
 
 //get information by user
 exports.getAUserOrder = async (req, res, next) => {
-    
+
     const userId = req.params.userId;
     try {
         const order = await Order.find({ userId });

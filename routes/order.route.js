@@ -6,6 +6,7 @@ const {
     getAllOrder,
     getAUserOrder,
     getIncome,
+    getOrderById,
 } = require("../controllers/order.controller");
 const {
     verifyToken,
@@ -17,7 +18,8 @@ const router = express.Router();
 // //GET monthly Income
 router.get("/income", verifyToken, verifyAdmin, getIncome);
 // //SAVE
-router.post("/", verifyToken, saveOrder);
+router.post("/", saveOrder);
+
 
 // //UPDATE
 // router.put("/:id", verifyToken, verifyAdmin, updateOrder);
@@ -26,7 +28,9 @@ router.post("/", verifyToken, saveOrder);
 // router.delete("/:id", verifyToken, verifyAdmin, deleteOrder);
 
 // //GET order by user
-router.get("/:userId", verifyToken, getAUserOrder);
+router.get("/:userId", getAUserOrder);
+//get order by order id
+router.get("/single/:id",getOrderById);
 
 // //GET ALL
 router.get("/", verifyToken, verifyAdmin, getAllOrder);
