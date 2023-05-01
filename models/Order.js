@@ -38,6 +38,7 @@ const OrderSchema = new mongoose.Schema(
         paymentMethod: String,
         confirmedDate: Date,
         processingDate: Date,
+        pickedDate:Date,
         shippedDate: Date,
         deliveredDate: Date,
     },

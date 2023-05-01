@@ -89,3 +89,13 @@ exports.getIncome = async (req, res, next) => {
         next(error);
     }
 };
+
+//deleteAllOrder
+exports.deleteAllOrder = async (req, res, next) => {
+    try {
+        await Order.deleteMany({});
+        res.status(200).json('successfully deleted all order');
+    } catch (error) {
+        next(error);
+    }
+};

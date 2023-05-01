@@ -72,7 +72,7 @@ exports.successPayment = async (req, res, next) => {
     const newOrder = await Order.findOne({ tranId: req.body.tran_id });
     if (newOrder) {
         try {
-            await Order.findByIdAndUpdate(newOrder._id, { $set: { valId: req.body.val_id, paymentMethod: req.body.card_issuer } });
+            await Order.findByIdAndUpdate(newOrder._id, { $set: { valId: req.body.val_id, paymentMethod: req.body.card_issuer,payment:true } });
             res.status(200).redirect(`http://localhost:3000/order-success`);
         } catch (error) {
             next(error)
@@ -81,8 +81,10 @@ exports.successPayment = async (req, res, next) => {
 }
 
 exports.failPayment = async (req, res, next) => {
-    const newOrder = await Order.findOne({ txtId: req.body.tran_id });
+    const newOrder = await Order.findOne({ tranId: req.body.tran_id });
+    // console.log("hello",req.body);
     if (newOrder) {
+        console.log("hello");
         try {
             await Order.findByIdAndDelete(newOrder._id);
             res.status(200).redirect(`http://localhost:3000/order-fail`);
@@ -95,7 +97,7 @@ exports.failPayment = async (req, res, next) => {
 }
 
 exports.cancelPayment = async (req, res, next) => {
-    const newOrder = await Order.findOne({ txtId: req.body.tran_id });
+    const newOrder = await Order.findOne({ tranId: req.body.tran_id });
     if (newOrder) {
         try {
             await Order.findByIdAndDelete(newOrder._id);

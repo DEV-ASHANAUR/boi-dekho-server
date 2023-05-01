@@ -2,7 +2,7 @@ const express = require("express");
 const {
     saveOrder,
     updateOrder,
-    deleteOrder,
+    deleteAllOrder,
     getAllOrder,
     getAUserOrder,
     getIncome,
@@ -24,8 +24,8 @@ router.post("/", saveOrder);
 // //UPDATE
 // router.put("/:id", verifyToken, verifyAdmin, updateOrder);
 
-// //DELETE
-// router.delete("/:id", verifyToken, verifyAdmin, deleteOrder);
+// //all DELETE
+router.delete("/", deleteAllOrder);
 
 // //GET order by user
 router.get("/:userId", getAUserOrder);
