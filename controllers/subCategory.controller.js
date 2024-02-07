@@ -33,11 +33,10 @@ exports.updateSubCategory = async (req, res, next) => {
     const id = req.params.id;
     const { subCategory, category } = req.body;
     const filter = { category: category };
-
     try {
         const updatedSubCategory = await SubCategory.findByIdAndUpdate(
             id,
-            { $set: { subCategory: subCategory } },
+            { $set: { subCategory: subCategory,category:category } },
             { new: true }
         );
         try {
@@ -68,11 +67,9 @@ exports.deleteSubCategory = async (req, res, next) => {
             { new: true }
         );
         try {
-            await SubCategory.findByIdAndDelete({ _id: id });
+            const result = await SubCategory.findByIdAndDelete({ _id: id });
 
-            res.status(200).json({
-                msg: "Deleted Successfully",
-            });
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }

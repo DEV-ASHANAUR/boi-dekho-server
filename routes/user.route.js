@@ -1,15 +1,15 @@
 const express = require("express");
 const {
-    updateUser,
-    deleteUser,
-    getAllUser,
-    getAUser,
-    getUserByMonth,
+  updateUser,
+  deleteUser,
+  getAllUser,
+  getAUser,
+  getUserByMonth,
 } = require("../controllers/user.controller");
 const {
-    verifyToken,
-    verifyUser,
-    verifyAdmin,
+  verifyToken,
+  verifyUser,
+  verifyAdmin,
 } = require("../Utilities/verifyToken");
 const router = express.Router();
 
@@ -20,12 +20,12 @@ router.get("/stats", verifyToken, verifyAdmin, getUserByMonth);
 router.put("/:id", updateUser);
 
 //DELETE
-router.delete("/:id", verifyToken, verifyUser, deleteUser);
+router.delete("/:id", deleteUser);
 
 //GET One
 router.get("/:id", getAUser);
 
 //GET ALL
-router.get("/", verifyToken, verifyAdmin, getAllUser);
+router.get("/",verifyToken,verifyUser, getAllUser);
 
 module.exports = router;

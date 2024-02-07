@@ -29,18 +29,18 @@ const bookRoute = require("./routes/book.route");
 const orderRoute = require("./routes/order.route");
 const paymentRoute = require("./routes/payment.route");
 
-// database connection
-mongoose.set("strictQuery", false);
-const connect = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log("Connected to DB");
-    } catch (error) {
+//database connection
+const connect = () =>{
+    mongoose.connect(process.env.MONGO_URI).then(()=>{
+        console.log("connected to DB");
+    }).catch((error)=>{
         throw error;
-    }
-};
-mongoose.connection.on("disconnected", () => {
-    console.log("DB Disconnected");
+    });
+}
+
+// if the database has been disconnected
+mongoose.connection.on("disconnected",()=>{
+    console.log("mongodb disconnected");
 });
 
 app.get("/", (req, res) => {
@@ -75,3 +75,5 @@ app.listen(port, () => {
     connect();
     console.log("Server is running", port);
 });
+
+
