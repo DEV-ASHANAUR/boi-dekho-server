@@ -298,6 +298,16 @@ exports.getAllBook = async (req, res, next) => {
     }
 };
 
+exports.books = async (req,res,next) => {
+    try {
+        const result = await Book.find();
+        return res.status(200).json(result);
+
+    } catch (error) {
+        next(error);
+    }
+}
+
 exports.getReletedBook = async (req, res, next) => {
     try {
         const categories = req.query.categories.split(","); // assuming the query parameter is named 'categories' and is a comma-separated list

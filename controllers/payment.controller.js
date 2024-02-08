@@ -1,4 +1,5 @@
 const Order = require("../models/Order");
+const Book = require("../models/Book");
 const SSLCommerzPayment = require('sslcommerz')
 const { v4: uuidv4 } = require('uuid');
 const { createError } = require('../Utilities/error');
@@ -46,7 +47,19 @@ exports.initpayment = async (req, res, next) => {
     };
     const newOrder = new Order({ ...productInfo.pay_info, tranId: productInfo.tran_id });
     // console.log("first",data)
-    await newOrder.save();
+    const saveOrder = await newOrder.save();
+
+    await Promise.all(
+        saveOrder.orderDetails.map(async (item) => {
+          const bookId = item._id;
+          const updatedQuantity = item.cartQuantity;
+  
+          await Book.findByIdAndUpdate(bookId, {
+            $inc: { quantity: -updatedQuantity },
+          });
+        })
+      );
+
     // console.log(data.pay_info);
     const sslcommer = new SSLCommerzPayment(process.env.STORE_ID, process.env.SSL_SECRET, false) //true for live default false for sandbox
     sslcommer.init(productInfo).then(data => {

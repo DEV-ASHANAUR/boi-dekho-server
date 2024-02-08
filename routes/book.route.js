@@ -16,6 +16,7 @@ const {
     FilterBookByOption,
     getBookByPublisher,
     getReletedBook,
+    books,
 } = require("../controllers/book.controller");
 const { verifyToken, verifyAdmin } = require("../Utilities/verifyToken");
 const router = express.Router();
@@ -55,6 +56,9 @@ router.get("/best-offer", getBestOfferBook);
 
 // // Get pre Order Book
 router.get("/pre-order", preOrderBook);
+
+// //GET books for dashboard
+router.get("/books", books);
 
 // //GET One
 router.get("/:id", getABook);
