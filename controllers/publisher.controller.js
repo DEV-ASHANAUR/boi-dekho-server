@@ -30,8 +30,8 @@ exports.updatePublisher = async (req, res, next) => {
 exports.deletePublisher = async (req, res, next) => {
     const id = req.params.id;
     try {
-        await Publisher.findByIdAndDelete({ _id: id });
-        res.status(200).json({ msg: "Deleted Successfully" });
+        const result = await Publisher.findByIdAndDelete({ _id: id });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

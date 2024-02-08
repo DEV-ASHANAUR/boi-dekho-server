@@ -38,9 +38,9 @@ exports.deleteBook = async (req, res, next) => {
         await Wishlist.updateMany({ bookId: id }, { $pull: { bookId: id } });
         await Wishlist.deleteMany({ bookId: { $size: 0 } });
 
-        await Book.findByIdAndDelete({ _id: id });
+        const result = await Book.findByIdAndDelete({ _id: id });
 
-        res.status(200).json({ msg: "Deleted Successfully" });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

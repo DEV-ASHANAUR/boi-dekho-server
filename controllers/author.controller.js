@@ -31,8 +31,8 @@ exports.updateAuthor = async (req, res, next) => {
 exports.deleteAuthor = async (req, res, next) => {
     const id = req.params.id;
     try {
-        await Author.findByIdAndDelete({ _id: id });
-        res.status(200).json({ msg: "Deleted Successfully" });
+        const result = await Author.findByIdAndDelete({ _id: id });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
