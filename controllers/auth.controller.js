@@ -129,7 +129,7 @@ exports.googleProvider = async (req, res, next) => {
         }
       );
 
-      console.log("token", token);
+      // console.log("token", token);
 
       const { password: pass, ...others } = user._doc;
       res.status(200).json({ user: others, token });
