@@ -7,6 +7,7 @@ const {
   getAUserOrder,
   getIncome,
   getOrderById,
+  deleteOrder,
 } = require("../controllers/order.controller");
 const {
   verifyToken,
@@ -21,15 +22,17 @@ router.get("/income", verifyToken, verifyAdmin, getIncome);
 router.post("/", saveOrder);
 
 // //UPDATE
-// router.put("/:id", verifyToken, verifyAdmin, updateOrder);
+router.put("/:id",verifyToken, updateOrder);
 
 // //all DELETE
-router.delete("/", deleteAllOrder);
+router.delete("/",verifyToken, deleteAllOrder);
+
+router.delete("/:id",verifyToken, deleteOrder);
 
 // //GET order by user
 router.get("/:userId", verifyToken, getAUserOrder);
 //get order by order id
-router.get("/single/:id", verifyToken, getOrderById);
+router.get("/single/:id", getOrderById);
 
 // //GET ALL
 router.get("/", verifyToken, verifyAdmin, getAllOrder);

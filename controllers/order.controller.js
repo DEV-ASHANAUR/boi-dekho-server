@@ -28,19 +28,19 @@ exports.saveOrder = async (req, res, next) => {
 };
 
 //update information
-// exports.updateOrder = async (req, res, next) => {
-//     const id = req.params.id;
-//     try {
-//         const updatedOrder = await Order.findByIdAndUpdate(
-//             id,
-//             { $set: req.body },
-//             { new: true }
-//         );
-//         res.status(200).json(updatedOrder);
-//     } catch (error) {
-//         next(error);
-//     }
-// };
+exports.updateOrder = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const updatedOrder = await Order.findByIdAndUpdate(
+            id,
+            { $set: req.body },
+            { new: true }
+        );
+        res.status(200).json(updatedOrder);
+    } catch (error) {
+        next(error);
+    }
+};
 
 //delete information
 exports.getOrderById = async (req, res, next) => {
@@ -108,6 +108,15 @@ exports.deleteAllOrder = async (req, res, next) => {
   try {
     await Order.deleteMany({});
     res.status(200).json("successfully deleted all order");
+  } catch (error) {
+    next(error);
+  }
+};
+//deleteAllOrder
+exports.deleteOrder = async (req, res, next) => {
+  try {
+    const result = await Order.findByIdAndDelete(req.params.id);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
