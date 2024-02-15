@@ -57,7 +57,7 @@ exports.getOrderById = async (req, res, next) => {
 exports.getAUserOrder = async (req, res, next) => {
   const userId = req.params.userId;
   try {
-    const order = await Order.find({ userId });
+    const order = await Order.find({ userId }).sort({ createdAt: -1 });
     res.status(200).json(order);
   } catch (error) {
     next(error);
@@ -67,7 +67,7 @@ exports.getAUserOrder = async (req, res, next) => {
 //get all information
 exports.getAllOrder = async (req, res, next) => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.find().sort({ createdAt: -1 });
 
     res.status(200).json(orders);
   } catch (error) {
