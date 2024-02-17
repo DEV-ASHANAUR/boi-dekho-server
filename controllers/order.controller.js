@@ -75,19 +75,28 @@ exports.getAllOrder = async (req, res, next) => {
   }
 };
 
-// GET MONTHLY INCOME
 exports.getIncome = async (req, res, next) => {
   const date = new Date();
-  const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
-  const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
+  const currentMonthStart = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastMonthEnd = new Date(currentMonthStart);
+  lastMonthEnd.setDate(currentMonthStart.getDate() - 1); // Go back one day to get the end of the previous month
+  const lastMonthStart = new Date(lastMonthEnd.getFullYear(), lastMonthEnd.getMonth(), 1);
 
   try {
     const income = await Order.aggregate([
-      { $match: { createdAt: { $gte: previousMonth } } },
+      {
+        $match: {
+          createdAt: {
+            $gte: currentMonthStart,
+            $lt: new Date(),
+          },
+        },
+      },
       {
         $project: {
+          createdAt: 1,
           month: { $month: "$createdAt" },
-          sales: "$amount",
+          sales: { $toDouble: "$total" }, // Convert "total" to a double (numeric type)
         },
       },
       {
@@ -97,13 +106,59 @@ exports.getIncome = async (req, res, next) => {
         },
       },
     ]);
-    res.status(200).json(income);
+
+    // console.log("Income data for the present month:", income);
+
+    // Extract sales for the present month
+    const presentMonthSale = income.find((entry) => entry._id === currentMonthStart.getMonth() + 1)?.total || 0;
+
+    // Extract sales for the previous month
+    const previousMonthSale = income.find((entry) => entry._id === lastMonthStart.getMonth() + 1)?.total || 0;
+
+    res.status(200).json({ presentMonthSale, previousMonthSale });
   } catch (error) {
+    console.error("Error in getIncome:", error);
     next(error);
   }
 };
 
+
 //deleteAllOrder
+
+exports.monthlySalesReport = async (req, res, next) => {
+  try {
+    const monthlySalesReport = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $exists: true, // Ensure createdAt field exists
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
+          totalSales: { $sum: { $toDouble: "$total" } }, // Convert total to double for summing
+        },
+      },
+      {
+        $sort: {
+          "_id.year": 1,
+          "_id.month": 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(monthlySalesReport);
+  } catch (error) {
+    console.error("Error in getMonthlySalesReport:", error);
+    next(error);
+  }
+};
+
 exports.deleteAllOrder = async (req, res, next) => {
   try {
     await Order.deleteMany({});
