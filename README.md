@@ -17,4 +17,4 @@ The "boidekho-server" repository serves as the backend implementation for the Bo
 3. **Scalable Architecture:** Built on Node.js and Express.js for a scalable foundation to handle a growing number of users and requests.
 4. **Middleware Integration:** Implements Express.js middleware for tasks such as authentication, logging, and error handling.
 
-## Contributors
+
