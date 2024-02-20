@@ -14,7 +14,7 @@ const {
 const router = express.Router();
 
 //GET USER by MONTH
-router.get("/stats", verifyToken, verifyAdmin, getUserByMonth);
+router.get("/stats", getUserByMonth);
 
 //UPDATE
 router.put("/:id", updateUser);
@@ -26,6 +26,6 @@ router.delete("/:id", deleteUser);
 router.get("/:id", getAUser);
 
 //GET ALL
-router.get("/",verifyToken,verifyUser, getAllUser);
+router.get("/", getAllUser);
 
 module.exports = router;

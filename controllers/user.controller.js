@@ -23,8 +23,8 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
     const id = req.params.id;
     try {
-        await User.findByIdAndDelete({ _id: id });
-        res.status(200).json({ msg: "Deleted Successfully" });
+        const result = await User.findByIdAndDelete({ _id: id });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
@@ -33,7 +33,7 @@ exports.deleteUser = async (req, res, next) => {
 //get all user information
 exports.getAllUser = async (req, res, next) => {
     try {
-        const users = await User.find();
+        const users = await User.find().sort({ createdAt: -1 });
         res.status(200).json(users);
     } catch (error) {
         next(error);

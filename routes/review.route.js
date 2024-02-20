@@ -22,6 +22,6 @@ router.delete("/:id", deleteReview);
 router.get("/:bookId", getReviewByBookId);
 
 //GET ALL
-router.get("/", verifyToken, verifyAdmin, getAllReview);
+router.get("/", getAllReview);
 
 module.exports = router;

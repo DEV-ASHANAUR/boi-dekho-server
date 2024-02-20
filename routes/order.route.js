@@ -26,20 +26,20 @@ router.get("/income", getIncome);
 router.post("/", saveOrder);
 
 // //UPDATE
-router.put("/:id", verifyToken, updateOrder);
+router.put("/:id", updateOrder);
 
 // //all DELETE
-router.delete("/", verifyToken, deleteAllOrder);
+router.delete("/", deleteAllOrder);
 
-router.delete("/:id", verifyToken, deleteOrder);
+router.delete("/:id", deleteOrder);
 
 // //GET order by user
-router.get("/:userId", verifyToken, getAUserOrder);
+router.get("/:userId",  getAUserOrder);
 //get order by order id
 router.get("/single/:id", getOrderById);
 //get month wise salw report
 
 // //GET ALL
-router.get("/", verifyToken, verifyAdmin, getAllOrder);
+router.get("/", getAllOrder);
 
 module.exports = router;

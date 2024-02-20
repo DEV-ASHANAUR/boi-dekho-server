@@ -8,7 +8,7 @@ router.post("/register", register);
 
 
 //CREATE
-router.post("/change-password/:id",verifyToken, changePassword);
+router.post("/change-password/:id", changePassword);
 
 //login
 router.post("/login", login);
