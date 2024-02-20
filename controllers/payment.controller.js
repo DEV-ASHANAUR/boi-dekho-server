@@ -14,9 +14,9 @@ exports.initpayment = async (req, res, next) => {
         pay_info: PayInfo,
         currency: 'BDT',
         tran_id: uuidv4(),
-        success_url: 'http://localhost:5000/api/v1/boikini/payment/success',
-        fail_url: 'http://localhost:5000/api/v1/boikini/payment/fail',
-        cancel_url: 'http://localhost:5000/api/v1/boikini/payment/cancel',
+        success_url: `${process.env.BACKEND_URL}/api/v1/boikini/payment/success`,
+        fail_url: `${process.env.BACKEND_URL}/api/v1/boikini/payment/fail`,
+        cancel_url: `${process.env.BACKEND_URL}/api/v1/boikini/payment/cancel`,
         ipn_url: 'http://yoursite.com/ipn',
         shipping_method: 'Courier',
         product_name: 'Computer.',
@@ -86,7 +86,7 @@ exports.successPayment = async (req, res, next) => {
     if (newOrder) {
         try {
             await Order.findByIdAndUpdate(newOrder._id, { $set: { valId: req.body.val_id, paymentMethod: req.body.card_issuer,payment:true } });
-            res.status(200).redirect(`http://localhost:3000/order-success`);
+            res.status(200).redirect(`${process.env.FONTEND_URL}/order-success`);
         } catch (error) {
             next(error)
         }
@@ -100,12 +100,12 @@ exports.failPayment = async (req, res, next) => {
         console.log("hello");
         try {
             await Order.findByIdAndDelete(newOrder._id);
-            res.status(200).redirect(`http://localhost:3000/order-fail`);
+            res.status(200).redirect(`${process.env.FONTEND_URL}/order-fail`);
         } catch (error) {
             next(error)
         }
     } else {
-        res.status(200).redirect(`http://localhost:3000/`);
+        res.status(200).redirect(`${process.env.FONTEND_URL}/`);
     }
 }
 
